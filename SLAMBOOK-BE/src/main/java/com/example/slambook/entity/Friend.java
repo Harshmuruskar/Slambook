@@ -1,50 +1,36 @@
 package com.example.slambook.entity;
 
-import com.example.slambook.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "slam_book")
+@Table(name = "friend")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SlamBook {
+public class Friend {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String fullName;
-    private String nickname;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "slam_book_id", nullable = false)
+    private SlamBook slamBook;
 
-    @Column(columnDefinition = "TEXT")
-    private String profilePhotoUrl;
-    
-    private LocalDate dateOfBirth;
-    
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
-    
-    private String favoriteColor;
-    
-    @ElementCollection
-    @CollectionTable(name = "slambook_hobbies", joinColumns = @JoinColumn(name = "slambook_id"))
-    @Column(name = "hobby")
-    private List<String> hobbies;
-    
-    @Column(columnDefinition = "TEXT")
-    private String aboutMe;
-    
+    private String friendName;
+    private String relationship;
     private Integer friendshipRating;
     private Boolean isBestFriend;
-    private LocalDate friendshipStartDate;
-    
+    private LocalDate friendshipSince;
+
+    @Column(columnDefinition = "TEXT")
+    private String message;
+
     private String songName;
     private String songArtist;
 
@@ -53,13 +39,13 @@ public class SlamBook {
 
     @Column(columnDefinition = "TEXT")
     private String songDedication;
-    
+
     @Column(columnDefinition = "TEXT")
     private String memoryPhotoUrl;
-    
+
     @Column(columnDefinition = "TEXT")
     private String memoryText;
-    
+
     @Column(updatable = false)
     private LocalDateTime createdAt;
     
